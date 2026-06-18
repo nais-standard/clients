@@ -1,0 +1,70 @@
+name: CI
+
+# Tests every SDK against the shared conformance vectors. The whole point is to
+# prove all three implementations agree byte-for-byte on canonicalization and
+# signature verification.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  js:
+    name: JavaScript SDK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Conformance (signature)
+        run: node conformance/run.cjs
+      - name: Resolve/validate (offline)
+        run: node conformance/resolve-test.cjs
+      - name: ESM entry point
+        run: node conformance/esm-check.mjs
+
+  python:
+    name: Python SDK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install cryptography dnspython
+      - name: Conformance (signature)
+        run: python conformance/run.py
+      - name: Resolve/validate (offline)
+        run: python conformance/resolve-test.py
+
+  php:
+    name: PHP SDK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: sodium, curl, json
+      - name: Conformance (signature)
+        run: php conformance/run.php
+      - name: Resolve/validate (offline)
+        run: php conformance/resolve-test.php
+
+  vectors-fresh:
+    name: Vectors are up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: sodium, curl, json
+      - name: Regenerate and diff
+        run: |
+          php conformance/make-vectors.php
+          git diff --exit-code conformance/vectors || \
+            (echo "::error::conformance/vectors is stale — run 'php conformance/make-vectors.php' and commit" && exit 1)

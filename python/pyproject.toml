@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nais-sdk"
+version = "1.0.0"
+description = "Python SDK for the Network Agent Identity Standard (NAIS). Resolve, validate, and verify the signatures of NAIS-compliant agent cards."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+# DNS TXT resolution uses dnspython (no stdlib equivalent). Signature
+# verification uses Ed25519 via cryptography (PyNaCl supported as an alternative).
+dependencies = ["dnspython>=2.0", "cryptography>=41"]
+keywords = ["nais", "agent", "identity", "ai-agent", "dns", "resolver", "mcp", "web3", "ed25519", "signature"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: Name Service (DNS)",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.optional-dependencies]
+pynacl = ["PyNaCl>=1.5"]
+
+[project.urls]
+Homepage = "https://nais.id"
+Documentation = "https://nais.id/sdks"
+Repository = "https://github.com/nais-standard/clients"
+"Bug Tracker" = "https://github.com/nais-standard/clients/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["nais_sdk*"]
+
+[tool.setuptools.package-data]
+nais_sdk = ["py.typed"]

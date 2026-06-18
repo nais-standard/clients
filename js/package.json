@@ -1,0 +1,50 @@
+{
+  "name": "@nais-standard/sdk",
+  "version": "1.0.0",
+  "description": "JavaScript/Node.js SDK for the Network Agent Identity Standard (NAIS). Resolve, validate, and verify the signatures of NAIS-compliant agent cards.",
+  "keywords": [
+    "nais",
+    "agent",
+    "identity",
+    "ai-agent",
+    "dns",
+    "resolver",
+    "mcp",
+    "web3",
+    "x402",
+    "ed25519",
+    "signature"
+  ],
+  "main": "src/index.js",
+  "module": "src/index.mjs",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.mjs",
+      "require": "./src/index.js"
+    }
+  },
+  "files": [
+    "src/",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "node ../conformance/run.cjs && node ../conformance/resolve-test.cjs && node ../conformance/esm-check.mjs"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nais-standard/clients.git",
+    "directory": "js"
+  },
+  "bugs": {
+    "url": "https://github.com/nais-standard/clients/issues"
+  },
+  "homepage": "https://nais.id/sdks"
+}

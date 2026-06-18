@@ -1,0 +1,36 @@
+{
+  "name": "nais-standard/sdk",
+  "description": "PHP SDK for the Network Agent Identity Standard (NAIS). Resolve, validate, and verify the signatures of NAIS-compliant agent cards.",
+  "type": "library",
+  "keywords": ["nais", "agent", "identity", "ai-agent", "dns", "resolver", "mcp", "web3", "ed25519", "signature"],
+  "license": "MIT",
+  "homepage": "https://nais.id",
+  "support": {
+    "issues": "https://github.com/nais-standard/clients/issues",
+    "source": "https://github.com/nais-standard/clients"
+  },
+  "require": {
+    "php": ">=7.4",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-sodium": "*"
+  },
+  "require-dev": {},
+  "autoload": {
+    "psr-4": {
+      "Nais\\": "src/Nais/"
+    }
+  },
+  "autoload-dev": {},
+  "scripts": {
+    "test": [
+      "php ../conformance/run.php",
+      "php ../conformance/resolve-test.php"
+    ]
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true
+  }
+}
