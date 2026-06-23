@@ -4,7 +4,7 @@
     "dnsKey": "ed25519:oc5a92N1h1Vg9PlnM8CrB0MAw3mMddFhZTrVuMkzceQ",
     "card": {
         "nais": "1.0",
-        "cardVersion": 7,
+        "cardVersion": 8,
         "updated": "2026-06-17T00:00:00Z",
         "name": "WeatherAgent",
         "domain": "weatheragent.nais.id",
@@ -41,6 +41,26 @@
                 "alerts": "0.0005"
             }
         },
+        "linkedAgents": [
+            {
+                "domain": "alerts.weatheragent.nais.id",
+                "relation": "partner",
+                "name": "Severe Weather Alerts",
+                "verified": true
+            },
+            {
+                "domain": "geocode.nais.id",
+                "relation": "provider",
+                "name": "Geocoding Service",
+                "verified": true
+            },
+            {
+                "domain": "radar.example.org",
+                "relation": "recommended",
+                "name": "Community Radar",
+                "verified": false
+            }
+        ],
         "mcpSnapshot": {
             "capturedAt": "2026-06-17T00:00:00Z",
             "toolsHash": "sha256:16852823357521116bedaaa6a6bea8cf4053248840a02cee249d9f76ee76a1a8",

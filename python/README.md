@@ -69,6 +69,9 @@ Example output:
     "payments": ["x402"],
     "pay_to": ["0x742d35Cc6634C0532925a3b8D4C9B7F1A2e3d4E5"],
     "tags": ["forecast", "current_weather", "alerts"],
+    "linked_agents": [
+        {"domain": "alerts.weatheragent.nais.id", "relation": "partner", "verified": True, "name": "Severe Weather Alerts"}
+    ],
     "warnings": [],
     "errors": []
 }

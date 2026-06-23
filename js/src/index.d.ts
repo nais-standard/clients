@@ -9,6 +9,14 @@ export interface SignatureVerification {
   reason: string | null;
 }
 
+/** An advisory pointer to a related agent. A link confers no trust: resolve and verify the linked domain independently. */
+export interface LinkedAgentSummary {
+  domain: string;
+  relation: string | null;
+  verified: boolean;
+  name: string | null;
+}
+
 /** Flattened summary returned by validate(). */
 export interface ValidationSummary {
   valid: boolean;
@@ -26,6 +34,7 @@ export interface ValidationSummary {
   payments: string[];
   payTo: string[];
   tags: string[];
+  linkedAgents: LinkedAgentSummary[];
   warnings: string[];
   errors: string[];
   cached: boolean;

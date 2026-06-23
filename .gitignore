@@ -1,6 +1,10 @@
 node_modules/
 *.tgz
 
+# SSH deploy keypair for the PHP split release — must never be committed
+nais-php-deploy
+nais-php-deploy.pub
+
 # Python
 __pycache__/
 *.pyc

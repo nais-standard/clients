@@ -136,7 +136,8 @@ class Resolver
      *   mcp_endpoint: string|null, has_mcp: bool, has_card: bool, signature_verified: bool,
      *   signature_reason: string|null, key: string|null, kid: string|null,
      *   auth: array<string>, payments: array<string>, pay_to: array<string>,
-     *   tags: array<string>, warnings: array<string>, errors: array<string>
+     *   tags: array<string>, linked_agents: array<array{domain:string,relation:string|null,verified:bool,name:string|null}>,
+     *   warnings: array<string>, errors: array<string>
      * }
      *
      * @throws ResolutionException If resolution fails entirely.
@@ -167,6 +168,22 @@ class Resolver
             $payTo = array_map('strval', $card['payment']['payTo']);
         }
 
+        // Advisory pointers to related agents. A link confers no trust — each
+        // domain must be resolved and verified independently before it is used.
+        $linkedAgents = [];
+        if (isset($card['linkedAgents']) && is_array($card['linkedAgents'])) {
+            foreach ($card['linkedAgents'] as $entry) {
+                if (is_array($entry) && !empty($entry['domain'])) {
+                    $linkedAgents[] = [
+                        'domain'   => (string) $entry['domain'],
+                        'relation' => isset($entry['relation']) ? (string) $entry['relation'] : null,
+                        'verified' => ($entry['verified'] ?? null) === true,
+                        'name'     => isset($entry['name']) ? (string) $entry['name'] : null,
+                    ];
+                }
+            }
+        }
+
         return [
             'valid'              => !empty($r['ok']) && !empty($v['valid']) && $signatureVerified,
             'domain'             => $r['domain'],
@@ -183,6 +200,7 @@ class Resolver
             'payments'           => $payments,
             'pay_to'             => $payTo,
             'tags'               => $tags,
+            'linked_agents'      => $linkedAgents,
             'warnings'           => $v['warnings'],
             'errors'             => $v['errors'],
         ];

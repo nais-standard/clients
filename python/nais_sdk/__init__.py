@@ -17,7 +17,7 @@ import urllib.request
 import urllib.parse
 from typing import Any, Callable, Dict, List, Optional
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __all__ = [
     "resolve",
     "validate",
@@ -398,8 +398,9 @@ def validate(domain: str, timeout: int = 8, **kwargs: Any) -> Dict[str, Any]:
     Returns a dict with: ``valid``, ``domain``, ``version``, ``manifest_url``,
     ``mcp_endpoint``, ``has_mcp``, ``has_card``, ``signature_verified``,
     ``signature_reason``, ``key``, ``kid``, ``auth``, ``payments``, ``pay_to``,
-    ``tags``, ``warnings``, ``errors``. ``pay_to`` is populated only when the
-    signature verifies.
+    ``tags``, ``linked_agents``, ``warnings``, ``errors``. ``pay_to`` is
+    populated only when the signature verifies. ``linked_agents`` is advisory:
+    each linked domain must be resolved and verified independently.
     """
     r = resolve(domain, timeout=timeout, **kwargs)
     card = r["card"]
@@ -422,6 +423,18 @@ def validate(domain: str, timeout: int = 8, **kwargs: Any) -> Dict[str, Any]:
     if signature_verified and isinstance(payment.get("payTo"), list):
         pay_to = [str(a) for a in payment["payTo"]]
 
+    # Advisory pointers to related agents. A link confers no trust — each domain
+    # must be resolved and verified independently before it is relied upon.
+    linked_agents: List[Dict[str, Any]] = []
+    for entry in card.get("linkedAgents") or []:
+        if isinstance(entry, dict) and entry.get("domain"):
+            linked_agents.append({
+                "domain": str(entry["domain"]),
+                "relation": str(entry["relation"]) if entry.get("relation") is not None else None,
+                "verified": entry.get("verified") is True,
+                "name": str(entry["name"]) if entry.get("name") is not None else None,
+            })
+
     return {
         "valid": bool(r["ok"] and v["valid"] and signature_verified),
         "domain": r["domain"],
@@ -438,6 +451,7 @@ def validate(domain: str, timeout: int = 8, **kwargs: Any) -> Dict[str, Any]:
         "payments": payments,
         "pay_to": pay_to,
         "tags": tags,
+        "linked_agents": linked_agents,
         "warnings": v["warnings"],
         "errors": v["errors"],
     }

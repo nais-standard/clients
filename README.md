@@ -102,7 +102,7 @@ Resolves a domain directly via DNS and HTTPS, then returns a structured result o
 
 ### `validate(domain)`
 
-Returns a flattened validation summary — useful for quick checks. Fields (JS camelCase / Python+PHP snake_case): `valid`, `domain`, `version`, `manifestUrl`/`manifest_url`, `mcpEndpoint`/`mcp_endpoint`, `hasMcp`/`has_mcp`, `hasCard`/`has_card`, `signatureVerified`/`signature_verified`, `signatureReason`/`signature_reason`, `key` (the DNS `k=` value), `kid`, `auth` (array of scheme names), `payments` (e.g. `["x402"]`), `payTo`/`pay_to` (only populated when the signature verifies), `tags`, `warnings`, `errors`.
+Returns a flattened validation summary — useful for quick checks. Fields (JS camelCase / Python+PHP snake_case): `valid`, `domain`, `version`, `manifestUrl`/`manifest_url`, `mcpEndpoint`/`mcp_endpoint`, `hasMcp`/`has_mcp`, `hasCard`/`has_card`, `signatureVerified`/`signature_verified`, `signatureReason`/`signature_reason`, `key` (the DNS `k=` value), `kid`, `auth` (array of scheme names), `payments` (e.g. `["x402"]`), `payTo`/`pay_to` (only populated when the signature verifies), `tags`, `linkedAgents`/`linked_agents` (advisory pointers to related agents — each `{ domain, relation, verified, name }`; resolve and verify every linked domain independently), `warnings`, `errors`.
 
 `valid` is true only when the card resolved, passed validation, **and** the signature verified.
 

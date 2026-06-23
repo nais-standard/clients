@@ -4,6 +4,14 @@ All notable changes to `@nais-standard/sdk` are documented here. This project ad
 [Semantic Versioning](https://semver.org/); the major version tracks the NAIS
 spec major (NAIS 1.x → SDK 1.x).
 
+## [1.0.1]
+
+### Added
+- `validate(domain)` now surfaces `linkedAgents` — advisory pointers to related
+  agents, each `{ domain, relation, verified, name }`. A link confers no trust:
+  every linked domain must be resolved and verified independently. Added the
+  `LinkedAgentSummary` type to the TypeScript declarations.
+
 ## [1.0.0]
 
 Initial release, implementing NAIS 1.0.

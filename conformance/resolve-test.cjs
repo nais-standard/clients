@@ -28,6 +28,12 @@ const fetchOk = async () => card;
   assert.strictEqual(s.valid, true);
   assert.strictEqual(s.mcpEndpoint, 'https://weatheragent.nais.id/mcp');
   assert.deepStrictEqual(s.payTo, ['0x742d35Cc6634C0532925a3b8D4C9B7F1A2e3d4E5']);
+  // linkedAgents surfaced in the summary (advisory pointers to related agents)
+  assert.strictEqual(s.linkedAgents.length, 3, 'should surface 3 linked agents');
+  assert.deepStrictEqual(s.linkedAgents[0], {
+    domain: 'alerts.weatheragent.nais.id', relation: 'partner', verified: true, name: 'Severe Weather Alerts',
+  });
+  assert.strictEqual(s.linkedAgents[2].verified, false, 'recommended link is not operator-verified');
 
   // tampered → not verified, payTo withheld
   const tampered = JSON.parse(JSON.stringify(card));

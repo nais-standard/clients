@@ -72,6 +72,7 @@ array(16) {
   ["payments"]           => array(1) { [0]=> string(4) "x402" }
   ["pay_to"]             => array(1) { [0]=> "0x742d35Cc6634C0532925a3b8D4C9B7F1A2e3d4E5" }
   ["tags"]               => array(3) { [0]=> "forecast" [1]=> "current_weather" [2]=> "alerts" }
+  ["linked_agents"]      => array(1) { [0]=> [ "domain"=>"alerts.weatheragent.nais.id", "relation"=>"partner", "verified"=>true, "name"=>"Severe Weather Alerts" ] }
   ["warnings"]           => array(0) {}
   ["errors"]             => array(0) {}
 }

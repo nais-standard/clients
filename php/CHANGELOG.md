@@ -4,6 +4,13 @@ All notable changes to `nais-standard/sdk` are documented here. This project adh
 [Semantic Versioning](https://semver.org/); the major version tracks the NAIS
 spec major (NAIS 1.x → SDK 1.x).
 
+## [1.0.1]
+
+### Added
+- `Resolver::validate($domain)` now surfaces `linked_agents` — advisory pointers
+  to related agents, each `{ domain, relation, verified, name }`. A link confers
+  no trust: every linked domain must be resolved and verified independently.
+
 ## [1.0.0]
 
 Initial release, implementing NAIS 1.0.

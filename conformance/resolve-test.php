@@ -34,6 +34,12 @@ $s = (new Resolver(['lookupTxt' => $dns, 'fetchCard' => $fetchOk]))->validate('w
 check($s['valid'] === true, 'summary valid');
 check($s['mcp_endpoint'] === 'https://weatheragent.nais.id/mcp', 'mcp endpoint');
 check($s['pay_to'] === ['0x742d35Cc6634C0532925a3b8D4C9B7F1A2e3d4E5'], 'pay_to surfaced');
+// linked_agents surfaced in the summary (advisory pointers to related agents)
+check(count($s['linked_agents']) === 3, 'should surface 3 linked agents');
+check($s['linked_agents'][0] === [
+    'domain' => 'alerts.weatheragent.nais.id', 'relation' => 'partner', 'verified' => true, 'name' => 'Severe Weather Alerts',
+], 'first linked agent shape');
+check($s['linked_agents'][2]['verified'] === false, 'recommended link is not operator-verified');
 
 // tampered → not verified, pay_to withheld
 $tampered = $card;

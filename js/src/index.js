@@ -323,6 +323,19 @@ async function validate(domain, opts = {}) {
   const payments = card.payment && card.payment.type ? [String(card.payment.type)] : [];
   const tags = Array.isArray(card.tags) ? card.tags.map(String) : [];
 
+  // Advisory pointers to related agents. A link confers no trust — each domain
+  // must be resolved and verified independently before it is relied upon.
+  const linkedAgents = Array.isArray(card.linkedAgents)
+    ? card.linkedAgents
+        .filter(l => l && typeof l === 'object' && l.domain)
+        .map(l => ({
+          domain: String(l.domain),
+          relation: l.relation != null ? String(l.relation) : null,
+          verified: l.verified === true,
+          name: l.name != null ? String(l.name) : null,
+        }))
+    : [];
+
   // payTo is only safe to surface once the signature is verified.
   const payToRaw = card.payment && card.payment.payTo;
   const payTo = signatureVerified && Array.isArray(payToRaw) ? payToRaw.map(String) : [];
@@ -343,6 +356,7 @@ async function validate(domain, opts = {}) {
     payments,
     payTo,
     tags,
+    linkedAgents,
     warnings: v.warnings,
     errors: v.errors,
   };
