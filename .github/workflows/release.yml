@@ -35,7 +35,7 @@ jobs:
       - name: Publish @nais-standard/sdk
         working-directory: js
         run: |
-          npm version "${{ inputs.version }}" --no-git-tag-version
+          npm version "${{ inputs.version }}" --no-git-tag-version --allow-same-version
           if [ "${{ vars.PUBLISH_ENABLED }}" = "true" ]; then
             npm publish --access public
           else
